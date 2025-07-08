@@ -1,0 +1,47 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# VSCode settings (opcional)
+.vscode/
+
+# PyCharm settings (opcional)
+.idea/
+
+# cx_Freeze build folders
+build/
+dist/
+
+# cx_Freeze installer files
+*.msi
+*.exe
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python egg info
+*.egg-info/
+*.eggs/
+
+# PyInstaller (caso use também)
+*.spec
+
+# Config private (exemplo)
+.env
+
+# Arquivos zipados ou temporários
+*.zip
+*.tar.gz
+*.bak
+*.tmp

@@ -44,7 +44,7 @@ def subir_folhas(user, senha, driver_option, pasta):
             print("Falha ao iniciar o driver. Abortando.")
             return
 
-        time.sleep(7)
+        time.sleep(3)
         usuario(driver, user, senha)
         for nome in os.listdir(pasta):
 
@@ -72,6 +72,8 @@ def subir_folhas(user, senha, driver_option, pasta):
                     element = driver.find_element(By.XPATH,xpath)
                     close_tabs_except_first(driver)
                     time.sleep(2)
+                    caminho_novo = os.path.join(pasta, f'Ok - {nome}')
+                    os.rename(caminho_completo, caminho_novo)
                 except:
                     time.sleep(1.5)
                     foca_aba(driver, "G360")
@@ -102,10 +104,12 @@ def subir_folhas(user, senha, driver_option, pasta):
                     input_element.send_keys(caminho_completo)
                     time.sleep(2)
                     click(driver, "//*[@id='btnSalvar-btnEl']")
-                    time.sleep(15)
+                    time.sleep(20)
                     esperar_elemento(driver, "//*[text()='Carregando...']", 200)
                     close_tabs_except_first(driver)
-                    time.sleep(3)
+                    time.sleep(2)
+                    caminho_novo = os.path.join(pasta, f'Ok - {nome}')
+                    os.rename(caminho_completo, caminho_novo)
             except Exception as e:
                 print(f"Erro na iteração do arquivo '{nome}': {e}")
                 time.sleep(1.5)

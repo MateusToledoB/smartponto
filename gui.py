@@ -109,30 +109,44 @@ texto_label = ctk.CTkLabel(
 )
 texto_label.pack(anchor='w', padx=20, pady=(10, 20))
 
-# Botão para iniciar automação
+import threading
+
 def enviar_dados():
-    usuario = usuario_entry.get().strip()
-    senha = senha_entry.get().strip()
-    pasta = pasta_entry.get().strip()
-    driver_option = opcoes_selecionadas.get()
+    # Desativa o botão
+    enviar_button.configure(state="disabled")
 
-    if not usuario or not senha:
-        messagebox.showwarning("Atenção", "Por favor, preencha o usuário e a senha.")
-        return
+    def tarefa():
+        usuario = usuario_entry.get().strip()
+        senha = senha_entry.get().strip()
+        pasta = pasta_entry.get().strip()
+        driver_option = opcoes_selecionadas.get()
 
-    if not pasta:
-        messagebox.showwarning("Atenção", "Por favor, selecione uma pasta.")
-        return
+        if not usuario or not senha:
+            messagebox.showwarning("Atenção", "Por favor, preencha o usuário e a senha.")
+            enviar_button.configure(state="normal")  # Reativa o botão
+            return
 
-    if driver_option == "Selecione a versão do Edge":
-        messagebox.showwarning("Atenção", "Por favor, selecione a versão do Edge.")
-        return
+        if not pasta:
+            messagebox.showwarning("Atenção", "Por favor, selecione uma pasta.")
+            enviar_button.configure(state="normal")
+            return
 
-    try:
-        subir_folhas(usuario, senha, driver_option, pasta)
-        messagebox.showinfo("Sucesso", "Processo concluído com sucesso!")
-    except Exception as e:
-        messagebox.showerror("Erro", f"Ocorreu um erro:\n{e}")
+        if driver_option == "Selecione a versão do Edge":
+            messagebox.showwarning("Atenção", "Por favor, selecione a versão do Edge.")
+            enviar_button.configure(state="normal")
+            return
+
+        try:
+            subir_folhas(usuario, senha, driver_option, pasta)
+            messagebox.showinfo("Sucesso", "Processo concluído com sucesso!")
+        except Exception as e:
+            messagebox.showerror("Erro", f"Ocorreu um erro:\n{e}")
+        finally:
+            enviar_button.configure(state="normal")  # Reativa o botão ao terminar
+
+    # Roda tudo em uma thread separada
+    thread = threading.Thread(target=tarefa)
+    thread.start()
 
 enviar_button = ctk.CTkButton(app, text="Iniciar Automação", command=enviar_dados)
 enviar_button.pack(anchor='w', padx=20, pady=10)
